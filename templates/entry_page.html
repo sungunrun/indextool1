@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type=text/javascript>
+    function renderPage(elem) {
+        $.get("/render/" + $(elem).attr("name")+','+'{{current_entry.entry}}', function(data){
+            $("#result").html(data); $("#pagenolarge").html($(elem).attr("name"));
+        });
+   
+    }
+    // $(function() {
+    //     $(function() {
+	// 		$('a#process_input').bind('click', function() {
+    //             return false;
+    //         });
+    //     });
+    // });
+</script>
+{% endblock %}
+
+{% block body %}
+
+<div id="entry_container">
+
+<div id="index_info">
+
+<h1>{{current_entry.entry}}</h1>
+<a href="/indiv_entry/{{current_entry.id-1}}">Previous entry</a>
+<a href="/">Entries list</a>
+<a href="/indiv_entry/{{current_entry.id+1}}">Next entry</a><br><br>
+
+<div class="seesnote">
+    {{seesdic[current_entry.entry]}}<br>
+</div>
+
+<h3>Accepted variants</h3>
+{% for token in tokendic[current_entry.entry] %}
+{{ token }}<br>
+{% endfor %}
+
+<h3>Add variant</h3>
+
+
+<h3>Pages</h3>
+{% for page in pagesdic[current_entry.entry] %}
+
+<div id="page_links">
+<a href=# id={{page}} name={{page}} onclick="renderPage(this)">{{page}}</button></a><br>
+</div>
+{% endfor %}
+
+</div>
+<div id="reader">
+
+<h3>Page <span id="pagenolarge">0</span></h3>
+<p id="result">Result here.</p>
+</div>
+
+{% endblock %}
+
+
+</div>
+
+
+
+
+
+
+
+
+<h3>Text:</h3>
